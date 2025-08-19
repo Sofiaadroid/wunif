@@ -24,10 +24,13 @@ export default function AdminProductos() {
 
   function handleInput(e) {
     const { name, value, type } = e.target;
-    setForm(f => ({
-      ...f,
-      [name]: name === 'price' ? Number(value) : value
-    }));
+    if (name === 'price') {
+      // Permitir ingresar 10000, 10.000, 10,000 y convertir a entero
+      const clean = value.replace(/\D/g, '');
+      setForm(f => ({ ...f, price: clean ? Number(clean) : '' }));
+    } else {
+      setForm(f => ({ ...f, [name]: value }));
+    }
   }
 
   function handleNew() {
@@ -88,7 +91,7 @@ export default function AdminProductos() {
                   <td>{p.name}</td>
                   <td>{p.model}</td>
                   <td>{p.size}</td>
-                  <td><span style={{ color: 'var(--color-accent)', fontWeight: 700 }}>{p.price.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span></td>
+                  <td><span style={{ color: 'var(--color-accent)', fontWeight: 700 }}>{Number(p.price).toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span></td>
                   <td>{p.isActive ? <span style={{ color: '#2EC4B6', fontWeight: 600 }}>Sí</span> : <span style={{ color: '#e53e3e' }}>No</span>}</td>
                   <td><button className="btn btn-danger" onClick={() => handleDelete(p._id)}>Eliminar</button></td>
                 </tr>
@@ -110,7 +113,16 @@ export default function AdminProductos() {
             <input name="size" placeholder="Talla" value={form.size} onChange={handleInput} required />
           </label>
           <label>Precio
-            <input name="price" placeholder="Precio" value={form.price} onChange={handleInput} required type="number" />
+            <input
+              name="price"
+              placeholder="Precio"
+              value={form.price ? Number(form.price).toLocaleString('es-CO') : ''}
+              onChange={handleInput}
+              required
+              inputMode="numeric"
+              pattern="[0-9,.]*"
+              title="Ingresa el precio en pesos colombianos"
+            />
           </label>
           <label>URL de imagen
             <input name="imageUrl" placeholder="URL de imagen" value={form.imageUrl} onChange={handleInput} type="url" />

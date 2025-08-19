@@ -2,6 +2,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import CatalogoPublico from './pages/CatalogoPublico';
+import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
 import ContactoPage from './pages/ContactoPage';
 import PrivateRoute from './routes/PrivateRoute';
@@ -17,24 +18,6 @@ import AdminMensajes from './pages/AdminMensajes';
 
 import { useAuth } from './context/AuthContext';
 
-function Home() {
-  const { user } = useAuth();
-  return (
-    <section style={{ textAlign: 'center', marginBottom: '2em' }}>
-      <h1 style={{ fontWeight: 700, fontSize: '2.5em', marginBottom: '0.5em' }}>
-        Uniformes ICIT
-      </h1>
-      <p style={{ fontSize: '1.2em', marginBottom: '1.5em' }}>
-        Compra los uniformes oficiales del Colegio ICIT en línea.<br />
-        Catálogo actualizado, pago seguro y recibo electrónico.
-      </p>
-      <a href="/catalogo" className="btn btn-primary" style={{ marginRight: '1em' }}>Ver catálogo</a>
-      {!user && (
-        <a href="/login" className="btn btn-secondary">Iniciar sesión</a>
-      )}
-    </section>
-  );
-}
 
 
 export default function App() {

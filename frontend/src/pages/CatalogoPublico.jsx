@@ -39,20 +39,27 @@ export default function CatalogoPublico() {
   if (!productos.length) return <div className="empty-state">Aún no hay uniformes disponibles.</div>;
 
   return (
-    <section>
-      <h2 style={{ fontFamily: 'Poppins', fontWeight: 700, fontSize: '2em', color: 'var(--color-primary)', marginBottom: 18 }}>Catálogo de Uniformes</h2>
-      <div className="catalogo-grid">
+    <section className="catalogo-section">
+      <div className="catalogo-header">
+        <h2 className="catalogo-titulo">Catálogo</h2>
+        <div className="catalogo-subtitulo">Uniformes oficiales ICIT</div>
+      </div>
+      <div className="catalogo-grid premium">
         {productos.map(prod => (
-          <div className="catalogo-card" key={prod._id}>
-            {prod.imageUrl && <img src={prod.imageUrl} alt={prod.name} />}
-            <div className="nombre">{prod.name}</div>
-            <div className="desc">{prod.model} | Talla: {prod.size}</div>
-            <div className="precio">{prod.price.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
-            {user && user.role === 'user' && (
-              <button className="btn btn-primary" onClick={() => addToCart(prod)} disabled={added===prod._id}>
-                {added===prod._id ? 'Agregado!' : 'Agregar al carrito'}
-              </button>
-            )}
+          <div className="catalogo-card premium" key={prod._id}>
+            <div className="catalogo-img-wrap">
+              {prod.imageUrl && <img src={prod.imageUrl} alt={prod.name} className="catalogo-img" />}
+            </div>
+            <div className="catalogo-info">
+              <div className="catalogo-nombre">{prod.name}</div>
+              <div className="catalogo-desc">{prod.model} <span className="catalogo-talla">Talla: {prod.size}</span></div>
+              <div className="catalogo-precio">{Number(prod.price).toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
+              {user && user.role === 'user' && (
+                <button className="btn btn-primary catalogo-btn" onClick={() => addToCart(prod)} disabled={added===prod._id}>
+                  {added===prod._id ? 'Agregado!' : 'Agregar al carrito'}
+                </button>
+              )}
+            </div>
           </div>
         ))}
       </div>

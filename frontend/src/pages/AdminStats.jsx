@@ -9,7 +9,7 @@ export default function AdminStats() {
 
   useEffect(() => {
     setLoading(true);
-    fetch('/api/stats', {
+  fetch('/api/stats/summary', {
       headers: { Authorization: `Bearer ${user.token}` }
     })
       .then(res => res.json())
@@ -37,14 +37,6 @@ export default function AdminStats() {
             <li key={p._id}>{p.name} ({p.model}) — <b>{p.cantidad}</b> vendidos</li>
           ))}
         </ol>
-      </div>
-      <div className="card">
-        <h3>Compras por usuario</h3>
-        <ul>
-          {stats.comprasPorUsuario?.map(u => (
-            <li key={u._id}>{u.name} ({u.email}): <b>{u.cantidad}</b> compras</li>
-          ))}
-        </ul>
       </div>
     </section>
   );
